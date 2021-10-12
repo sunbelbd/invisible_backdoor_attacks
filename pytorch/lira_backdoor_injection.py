@@ -37,7 +37,7 @@ def get_model(args, model_only=False):
             from classifier_models import PreActResNet18
             netC = PreActResNet18(num_classes=args.num_classes).to(args.device)
         else:
-            if args.clsmodel in ['vgg', 'warping_vgg']:
+            if args.clsmodel in ['vgg11', 'warping_vgg']:
                 from classifier_models import vgg
                 netC = vgg.VGG('VGG11', num_classes=args.num_classes).to(args.device)
             else:
@@ -48,7 +48,7 @@ def get_model(args, model_only=False):
             from classifier_models import ResNet18TinyImagenet
             netC = ResNet18TinyImagenet().to(args.device)
         else:
-            if args.clsmodel in ['vgg', 'warping_vgg']:
+            if args.clsmodel in ['vgg11', 'warping_vgg']:
                 from classifier_models import vgg
                 netC = vgg.VGG('VGG11', num_classes=args.num_classes, feature_dim=2048).to(args.device)
             else:
@@ -58,7 +58,7 @@ def get_model(args, model_only=False):
             from classifier_models import ResNet18TinyImagenet
             netC = ResNet18TinyImagenet().to(args.device)
         else:
-            if args.clsmodel in ['vgg', 'warping_vgg']:
+            if args.clsmodel in ['vgg11', 'warping_vgg']:
                 from classifier_models import vgg
                 netC = vgg.VGG('VGG11', num_classes=args.num_classes, feature_dim=512).to(args.device)
             else:

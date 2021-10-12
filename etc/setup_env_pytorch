@@ -1,0 +1,14 @@
+if output=$(conda activate bd_lira);
+then
+    conda activate bd_lira
+else
+    echo "Creating bd_lira conda environment"
+    conda create --name bd_lira python=3.7
+    conda activate bd_lira
+    pip install -r requirements.txt
+
+    . etc/install_torch_cuda_11.0
+fi
+
+. etc/setup_cuda
+export PYTHONPATH=pytorch/:$PYTHONPATH

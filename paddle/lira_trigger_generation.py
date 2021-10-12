@@ -54,7 +54,7 @@ def create_models(args):
     """DONE
     """
     if args.dataset == 'cifar10':
-        if args.attack_model is None:
+        if args.attack_model is None or args.attack_model == 'autoencoder':
             from attack_models.autoencoders import Autoencoder
             atkmodel = Autoencoder(args.input_channel)
             # Copy of attack model
@@ -192,10 +192,7 @@ def train(args, atkmodel, tgtmodel, clsmodel, tgtoptimizer, clsoptimizer, target
         ########################################
         #### Update Transformation Function ####
         ########################################
-        tmpmodel = create_net()
-        print('*****************')
         noise = tgtmodel(data) * args.eps
-        print('#################')
         atkdata = clip_image(data + noise)
         
         # Calculate loss
@@ -374,8 +371,8 @@ def main(args):
             scratchmodel = create_net()
             scratchmodel.load_dict(clsmodel.state_dict()) #transfer from cls to scratch for testing
         else:
-            clsmodel = create_net().to(args.device)
-            scratchmodel = create_net().to(args.device)
+            clsmodel = create_net()
+            scratchmodel = create_net()
 
         if epoch % args.epochs_per_external_eval == 0 or epoch == args.epochs: 
             acc_clean, acc_poison = test(args, atkmodel, scratchmodel, target_transform, 
@@ -443,7 +440,4 @@ if __name__ == '__main__':
     parser = create_config_parser()
     args = parser.parse_args()
     
-    main(args)
-    
-    #CUDA_VISIBLE_DEVICES=6 python paddle/lira_trigger_generation_paddle.py --dataset mnist --clsmodel mnist_cnn --path experiments/ --epochs 50 --train-epoch 1 --mode all2one --target_label 0 --epochs_per_external_eval 10 --cls_test_epochs 5 --verbose 2 --batch-size 128 --alpha 0.5 --eps 0.01
-    #CUDA_VISIBLE_DEVICES=6 python paddle/lira_trigger_generation_paddle.py --dataset cifar10 --clsmodel vgg11 --path experiments/ --epochs 50 --train-epoch 1 --mode all2one --target_label 0 --epochs_per_external_eval 5 --cls_test_epochs 5 --verbose 2 --batch-size 128 --alpha 0.5 --eps 0.01
+    main(args)       

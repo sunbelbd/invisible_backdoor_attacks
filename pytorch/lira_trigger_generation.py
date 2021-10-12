@@ -89,7 +89,7 @@ def create_models(args):
         raise Exception(f'Invalid atk model {args.dataset}')
     
     # Classifier
-    if args.clsmodel == 'vgg':
+    if args.clsmodel == 'vgg11':
         from classifier_models import vgg
         def create_net():
             if args.dataset == 'tiny-imagenet':
@@ -496,7 +496,7 @@ def create_config_parser():
     parser.add_argument('--target_label', type=int, default=1) #only in effect if it's all2one
     parser.add_argument('--eps', type=float, default=0.3, help='epsilon for data poisoning')
     parser.add_argument('--alpha', type=float, default=0.5)
-    parser.add_argument('--clsmodel', type=str, default='vgg')
+    parser.add_argument('--clsmodel', type=str, default='vgg11')
     parser.add_argument('--attack_model', type=str, default='autoencoder')
     parser.add_argument('--mode', type=str, default='all2one')
     parser.add_argument('--epochs_per_external_eval', type=int, default=50)
@@ -504,6 +504,8 @@ def create_config_parser():
     parser.add_argument('--path', type=str, default='', help='resume from checkpoint')
     parser.add_argument('--best_threshold', type=float, default=0.1)
     parser.add_argument('--verbose', type=int, default=1, help='verbosity')
+    parser.add_argument('--avoid_clsmodel_reinitialization', action='store_true', 
+                        default=False, help='whether test the poisoned model from scratch')
     
     parser.add_argument('--test_eps', default=None, type=float)
     parser.add_argument('--test_alpha', default=None, type=float)
@@ -514,6 +516,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     main(args)
-    
-    #python python/lira_trigger_generation.py --dataset mnist --clsmodel vgg --path experiments/ --epochs 50 --train-epoch 1 --mode all2one --target_label 0 --epochs_per_external_eval 10 --cls_test_epochs 5 --verbose 2 --batch-size 128 --alpha 0.5 --eps 0.01
     
