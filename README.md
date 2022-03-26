@@ -20,21 +20,11 @@ Clone the repository. The setup script to initialize and activate the environmen
 . etc/setup_env_paddle
 ```
 
-or 
-
-```
-. etc/setup_env_pytorch
-```
-
-
 ## Repository artifacts
 
 * `paddle`: code to run the paddlepaddle version
-* `pytorch`: code to run the pytorch version
 * `requirements.txt`: list of python reqs
 * `README.md`: this doc, and light documentation of this repos.
-
-In each paddle or pytorch folder, there is a similar set of scripts to run the attack.
 
 ## Stage 1: Trigger Generation
 
@@ -50,8 +40,6 @@ CIFAR10
 . etc/setup_env_paddle
 python paddle/lira_trigger_generation.py --dataset cifar10 --clsmodel vgg11 --path experiments/ --epochs 50 --train-epoch 1 --mode all2one --target_label 0 --epochs_per_external_eval 10 --cls_test_epochs 5 --verbose 2 --batch-size 128 --alpha 0.5 --eps 0.01 --avoid_clsmodel_reinitialization
 ```
-
-Correspondingly, a similar process using the pytorch version can be used by replacing `paddle` with `pytorch`.
 
 ## Stage 2: Backdoor Injection
 
@@ -69,7 +57,6 @@ CIFAR10
 python paddle/lira_backdoor_injection.py --dataset cifar10 --clsmodel vgg11 --path experiments/ --epochs 50 --train-epoch 1 --mode all2one --target_label 0 --epochs_per_external_eval 10 --cls_test_epochs 5 --verbose 2 --batch-size 128 --alpha 0.5 --eps 0.01 --avoid_clsmodel_reinitialization --test_eps 0.01 --test_alpha 0.5 --test_epochs 250 --test_lr 0.01 --schedulerC_lambda 0.1 --schedulerC_milestones 50,100,150,200 --test_use_train_best
 ```
 
-Correspondingly, a similar process using the pytorch version can be used by replacing `paddle` with `pytorch`.
 
 ## Citation
 Thank you for your interest in our work. Please cite it using the following:
